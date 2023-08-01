@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import RootStyleRegistry from "./emotion";
+import { Notifications } from "@mantine/notifications";
+import { RouterTransition } from "@/components/RouterTransition";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RootStyleRegistry>{children}</RootStyleRegistry>
+        <RootStyleRegistry>
+          <Notifications />
+          <RouterTransition />
+          {children}
+        </RootStyleRegistry>
       </body>
     </html>
   );
