@@ -3,7 +3,7 @@
 // every file that uses them.
 "use client";
 
-import { Button } from "@mantine/core";
+import { Button, Title, Text, Anchor } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
-export { Button, Notifications };
+export { Button, Title, Text, Anchor, Notifications };

@@ -1,0 +1,74 @@
+.container {
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-between;
+  padding: 0 max(1.5rem, calc((100vw - var(--max-width)) / 2));
+  background-image: url("../../assets/home/bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.main {
+  height: fit-content;
+  width: 100%;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.mainLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 0;
+}
+
+.mainLeftText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mainLeftTextDesc {
+  max-width: 30rem;
+}
+
+.features {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.feature {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+}
+
+.mainRight {
+  width: 100%;
+  height: 100%;
+  max-width: 26rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+.footer {
+  padding: 2rem 0;
+}

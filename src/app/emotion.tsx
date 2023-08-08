@@ -45,6 +45,18 @@ export default function RootStyleRegistry({
               "#3B5873",
               "#3A4C5D",
             ],
+            secondary: [
+              "#ebf6ff",
+              "#9BB0C3",
+              "#6487A4",
+              "#283b4bb3",
+              "#364E62",
+              "#283B4B",
+              "#1C2832",
+              "#131B22",
+              "#0D1217",
+              "#090D0F",
+            ],
             black: [
               "#000000",
               "#111111",
@@ -64,14 +76,14 @@ export default function RootStyleRegistry({
           defaultRadius: "var(--general-box-border-radius)",
           headings: {
             fontFamily: manropeFont.style.fontFamily,
-            // sizes: {
-            //   h1: { fontSize: "var(--h1)" },
-            //   h2: { fontSize: "var(--h2)" },
-            //   h3: { fontSize: "var(--h3)" },
-            //   h4: { fontSize: "var(--h4)" },
-            //   h5: { fontSize: "var(--h5)" },
-            //   h6: { fontSize: "var(--h6)" },
-            // },
+            sizes: {
+              h1: { fontSize: "var(--h1)" },
+              h2: { fontSize: "var(--h2)" },
+              h3: { fontSize: "var(--h3)" },
+              h4: { fontSize: "var(--h4)" },
+              h5: { fontSize: "var(--h5)" },
+              h6: { fontSize: "var(--h6)" },
+            },
           },
           fontSizes: {
             // xs: "0.625rem",
