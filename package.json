@@ -22,16 +22,20 @@
     "@mantine/notifications": "^6.0.17",
     "@mantine/nprogress": "^6.0.17",
     "@react-oauth/google": "^0.11.1",
+    "@tabler/icons-react": "^2.30.0",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",
+    "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "embla-carousel-react": "^8.0.0-rc11",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "next": "13.4.12",
     "react": "18.2.0",
+    "react-cookie": "^5.0.0",
     "react-dom": "18.2.0",
+    "swr": "^2.2.1",
     "typescript": "5.1.6"
   }
 }
