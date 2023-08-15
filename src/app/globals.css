@@ -13,7 +13,7 @@ body {
 :root {
   /* Color styles */
   --primary-color: #108cff;
-  --primary-color---light: #ecf6ff;
+  --primary-color---light: #f4faff;
   --black: #0a2942;
   --gray---default: #636b78;
   --gray---light: #a1a6ad;
@@ -69,7 +69,7 @@ a {
 
 h1,
 h2 {
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
 }
 
 h3,

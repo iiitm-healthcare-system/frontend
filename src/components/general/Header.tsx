@@ -1,0 +1,52 @@
+"use client";
+
+import React from "react";
+import { Flex, Skeleton, Title, Text } from "@mantine/core";
+import Image from "next/image";
+import styles from "./Header.module.css";
+import IIITMIcon from "@/assets/iiitm_icon.svg";
+import AvaterIcon from "@/assets/general/avatar_icon.svg";
+import { useUser } from "@/hooks/user.swr";
+import { IconUser } from "@tabler/icons-react";
+
+function Header() {
+  const { userData, errorFetchingUserData, isUserDataLoading } = useUser();
+  return (
+    <Flex
+      direction="row"
+      justify="space-between"
+      align="center"
+      px={30}
+      py={18}
+      gap={24}
+    >
+      <Flex direction="row" align="center" gap={16}>
+        <Image width={20.1} height={32} src={IIITMIcon} alt="IIITM Logo" />
+        <Title order={2} size="md">
+          Health Center
+        </Title>
+      </Flex>
+      {isUserDataLoading || errorFetchingUserData || !userData ? (
+        <Skeleton width={150} height={32.8} />
+      ) : (
+        <Flex direction="row" align="center" gap={16}>
+          <Flex
+            align="center"
+            justify="center"
+            className={styles.profileChip}
+            px={10}
+            py={4}
+          >
+            <Text color="primary" size="sm" transform="capitalize" weight={600}>
+              {userData.role}
+            </Text>
+          </Flex>
+          <Text weight={600}>{userData.name}</Text>
+          <Image src={AvaterIcon} alt="avater" width={25} height={25} />
+        </Flex>
+      )}
+    </Flex>
+  );
+}
+
+export default Header;
