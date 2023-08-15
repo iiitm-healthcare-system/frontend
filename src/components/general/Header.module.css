@@ -1,5 +1,10 @@
 .container {
   padding: 1.15rem var(--default-horizontal-spacing);
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  left: 0;
 }
 
 .profileChip {
