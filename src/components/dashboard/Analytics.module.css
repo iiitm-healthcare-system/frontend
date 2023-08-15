@@ -5,3 +5,19 @@
 .analyticsContainer {
   max-width: 60rem;
 }
+
+.quickStatsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 10rem));
+  gap: 1rem;
+  width: 100%;
+}
+
+.quickStatItem {
+  background-color: var(--primary-color---light);
+  border-radius: 1rem;
+  padding: 1rem;
+  padding-right: 2rem;
+  width: 100%;
+  gap: 1rem;
+}

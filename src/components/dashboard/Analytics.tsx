@@ -29,6 +29,24 @@ const STATUS_COLOR = {
 
 type TimeframeOptions = "week" | "month" | "year";
 type TypeOptions = "active" | "complete" | "admit" | "opened";
+const QUICK_STATS_DATA = [
+  {
+    lable: "Total Cases This Week",
+    key: "cases",
+  },
+  {
+    lable: "Total Admitted",
+    key: "admitted",
+  },
+  {
+    lable: "Total Recovered",
+    key: "recovered",
+  },
+  {
+    lable: "Total Ongoing",
+    key: "ongoing",
+  },
+];
 
 function Analytics() {
   const { ref, width } = useElementSize();
@@ -100,6 +118,34 @@ function Analytics() {
               stroke="#0E9CFF"
             />
           </LineChart>
+        )}
+      </Flex>
+      <Flex direction="column" gap="lg">
+        <Title order={4}>Quick Stats</Title>
+        {isQuickStatsDataLoading ||
+        errorFetchingQuickStatsData ||
+        !quickStatsData ? (
+          <Skeleton height={200} />
+        ) : (
+          <div className={styles.quickStatsContainer}>
+            {QUICK_STATS_DATA.map((item, index) => {
+              return (
+                <Flex
+                  key={index}
+                  direction="column"
+                  justify="space-between"
+                  className={styles.quickStatItem}
+                >
+                  <Title color="black.6" order={6}>
+                    {item.lable}
+                  </Title>
+                  <Title order={3} color="primary">
+                    {quickStatsData[item.key as keyof typeof quickStatsData]}
+                  </Title>
+                </Flex>
+              );
+            })}
+          </div>
         )}
       </Flex>
     </Flex>
