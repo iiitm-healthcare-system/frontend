@@ -1,0 +1,4 @@
+.header {
+  padding: 1.4rem var(--default-horizontal-spacing);
+  background-color: var(--primary-color---light);
+}
