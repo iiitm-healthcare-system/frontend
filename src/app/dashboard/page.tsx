@@ -6,6 +6,7 @@ import React from "react";
 import styles from "./page.module.css";
 import { useUser } from "@/hooks/user.swr";
 import Analytics from "@/components/dashboard/Analytics";
+import Link from "next/link";
 
 function Page() {
   const { userData, errorFetchingUserData, isUserDataLoading } = useUser();
@@ -31,7 +32,13 @@ function Page() {
             >
               <Title order={3}> Activity</Title>
               {userData.role === "doctor" && (
-                <Button size="md">Add New Case</Button>
+                <Button
+                  size="md"
+                  component={Link}
+                  href={"/dashboard/case/new"}
+                >
+                  Add New Case
+                </Button>
               )}
             </Flex>
           )}

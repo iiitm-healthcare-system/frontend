@@ -21,9 +21,23 @@ export function useUser() {
       name: "Dr. Subhash Gupta",
       email: "test@gmail.com",
       phone: "1234567890",
-      role: "admin",
+      role: "doctor",
     } as IUser,
     isUserDataLoading: false,
-    errorFetchingUserData: false
+    errorFetchingUserData: false,
   };
 }
+
+export const useSearchUser = (query: string) => {
+  return {
+    searchUserData: new Array(3).fill(0).map((_, index) => ({
+      _id: `${query}${index + 1}`,
+      name: `${query}` + (index ? index + 1 : ""),
+      email: `test${query}@gmail.com`,
+      phone: "1234567890",
+      role: "doctor",
+    })) as IUser[],
+    isSearchingUser: false,
+    errorSearchingUser: false,
+  };
+};

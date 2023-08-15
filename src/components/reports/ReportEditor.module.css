@@ -1,0 +1,11 @@
+.container {
+  padding: 1.25rem max(1.5rem, calc(50vw - (var(--max-width) / 2)));
+}
+
+.overview {
+  max-width: 23rem;
+  padding: 1rem;
+  gap: 0.6rem;
+  background-color: var(--primary-color---light);
+  border-radius: 1rem;
+}
