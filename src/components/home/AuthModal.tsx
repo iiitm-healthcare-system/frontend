@@ -35,7 +35,8 @@ function AuthModal({ closeModal }: { closeModal: () => void }) {
     validate: {
       email: (value: string) =>
         /^\S+@\S+$/.test(value) ? null : "Invalid email",
-      password: (value: string) => value,
+      password: (value: string) =>
+        value.length > 0 ? null : "Password cannot be empty",
     },
   });
 
