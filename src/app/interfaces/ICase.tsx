@@ -5,7 +5,7 @@ export interface ICase {
   patient: IUser;
   doctor: IUser;
   attendant?: IUser;
-  status: "pending" | "ongoing" | "completed";
+  status: "admit" | "ongoing" | "completed";
   vitals: {
     height: number;
     weight: number;

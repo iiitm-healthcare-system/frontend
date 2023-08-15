@@ -3,11 +3,11 @@
 import React from "react";
 import { Flex, Skeleton, Title, Text } from "@mantine/core";
 import Image from "next/image";
-import styles from "./Header.module.css";
 import IIITMIcon from "@/assets/iiitm_icon.svg";
 import AvaterIcon from "@/assets/general/avatar_icon.svg";
 import { useUser } from "@/hooks/user.swr";
 import { IconUser } from "@tabler/icons-react";
+import styles from "./Header.module.css";
 
 function Header() {
   const { userData, errorFetchingUserData, isUserDataLoading } = useUser();

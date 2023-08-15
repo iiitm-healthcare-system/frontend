@@ -37,10 +37,11 @@ body {
   --general-box-border-radius: 0.675rem;
   --header-height: 4.625rem;
   --max-width: 80rem;
-  --default-horizontal-spacing: max(
+  --default-horizontal-spacing: 1.5rem;
+  /* --default-horizontal-spacing: max(
     1.5rem,
     calc(50vw - (var(--max-width) / 2))
-  );
+  ); */
 
   /* Effect styles */
   --general-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);

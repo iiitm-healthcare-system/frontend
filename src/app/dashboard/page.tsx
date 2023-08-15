@@ -10,7 +10,7 @@ function Page() {
   const { userData, errorFetchingUserData, isUserDataLoading } = useUser();
 
   return (
-    <Flex direction="column" gap="lg">
+    <Flex direction="column" gap="md" pb={30}>
       {isUserDataLoading || errorFetchingUserData || !userData ? (
         <Skeleton height={100} />
       ) : (
@@ -25,9 +25,9 @@ function Page() {
               <Button size="md">Add New Case</Button>
             )}
           </Flex>
-          <DataList />
         </>
       )}
+      <DataList />
     </Flex>
   );
 }

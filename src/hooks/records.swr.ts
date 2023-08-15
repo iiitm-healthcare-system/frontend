@@ -16,7 +16,7 @@ export function useRecords(page: number, limit: number) {
   // };
 
   return {
-    recordsData: new Array(10).fill(0).map((_, index) => ({
+    recordsData: new Array(limit).fill(0).map((_, index) => ({
       _id: index.toString(),
       patient: {
         _id: (50 + index).toString(),
@@ -91,9 +91,13 @@ export function useRecords(page: number, limit: number) {
           advice: "Take Bed Rest",
         },
       ],
+      status: ["admit", "ongoing", "completed"][
+        Math.floor(Math.random() * 3)
+      ],
       createdAt: new Date("2021-08-01T18:30:00.000Z"),
     })) as ICase[],
     isRecordsDataLoading: false,
     errorFetchingRecordsData: false,
+    totalRecordsCount: Math.floor(Math.random() * 200) + 50,
   };
 }
