@@ -12,14 +12,19 @@ import {
   Text,
   NumberInput,
   TextInput,
+  Table,
+  ActionIcon,
 } from "@mantine/core";
 import Link from "next/link";
 import {
   IconActivityHeartbeat,
   IconChevronLeft,
   IconClothesRack,
+  IconCross,
   IconScaleOutline,
   IconThermometer,
+  IconTrash,
+  IconX,
 } from "@tabler/icons-react";
 import { IUser } from "@/app/interfaces/IUser";
 import { useSearchUser } from "@/hooks/user.swr";
@@ -77,6 +82,17 @@ const VITALS_DATA = [
   // },
 ];
 
+const DEFAULT_COMPLAIN: {
+  description: string;
+  duration: number;
+  severity: "moderate" | "high" | "mild";
+  frequency: "constant" | "hourly" | "daily" | "weekly" | "rarely";
+} = {
+  description: "-",
+  duration: 1,
+  severity: "mild",
+  frequency: "constant",
+};
 function ReportEditor() {
   const [patient, setPatient] = React.useState<IUser | null>(null);
   const [patientSearchQuery, setPatientSearchQuery] =
@@ -91,6 +107,16 @@ function ReportEditor() {
     temperature: 0,
     bloodPressure: "0/0",
   });
+
+  const [complainsData, setComplains] = React.useState<
+    {
+      description: string;
+      duration: number;
+      severity: "moderate" | "high" | "mild";
+      frequency: "constant" | "hourly" | "daily" | "weekly" | "rarely";
+    }[]
+  >([{ ...DEFAULT_COMPLAIN }]);
+
   return (
     <Flex className={styles.container} direction="column" gap="xl">
       <Button unstyled component={Link} href="/dashboard">
@@ -152,6 +178,128 @@ function ReportEditor() {
               }));
             }}
           />
+        </Flex>
+      </Section>
+      <Section title="Complains">
+        <Flex
+          direction="column"
+          gap={16}
+          style={{
+            maxWidth: "40rem",
+          }}
+        >
+          <Table striped withBorder horizontalSpacing="md" verticalSpacing="sm">
+            <thead>
+              <tr>
+                <th>Complaint</th>
+                <th>Frequency</th>
+                <th>Severity</th>
+                <th>Duration</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {complainsData.map((complain, complainIndex) => {
+                console.log({ complainIndex });
+                return (
+                  <tr key={complainIndex}>
+                    <td>
+                      <TextInput
+                        variant="unstyled"
+                        value={complainsData[complainIndex].description}
+                        onChange={(event) => {
+                          const newComplains = [...complainsData];
+                          newComplains[complainIndex].description =
+                            event.target.value;
+                          setComplains(newComplains);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <Select
+                        variant="unstyled"
+                        value={complainsData[complainIndex].frequency}
+                        data={[
+                          "constant",
+                          "hourly",
+                          "daily",
+                          "weekly",
+                          "rarely",
+                        ]}
+                        onChange={(value) => {
+                          if (value)
+                            setComplains((prev) => {
+                              const newComplains = [...prev];
+                              newComplains[complainIndex].frequency = value as
+                                | "constant"
+                                | "hourly"
+                                | "daily"
+                                | "weekly"
+                                | "rarely";
+                              return newComplains;
+                            });
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <Select
+                        variant="unstyled"
+                        value={complainsData[complainIndex].severity}
+                        data={["moderate", "high", "mild"]}
+                        onChange={(value) => {
+                          if (value)
+                            setComplains((prev) => {
+                              const newComplains = [...prev];
+                              newComplains[complainIndex].severity = value as
+                                | "moderate"
+                                | "high"
+                                | "mild";
+                              return newComplains;
+                            });
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <NumberInput
+                        variant="unstyled"
+                        value={complainsData[complainIndex].duration}
+                        onChange={(value) => {
+                          setComplains((prev) => {
+                            const newComplains = [...prev];
+                            newComplains[complainIndex].duration = value || 0;
+                            return newComplains;
+                          });
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <ActionIcon
+                        variant="subtle"
+                        color="red"
+                        onClick={() => {
+                          setComplains((prev) => {
+                            const newComplains = [...prev];
+                            newComplains.splice(complainIndex, 1);
+                            return newComplains;
+                          });
+                        }}
+                      >
+                        <IconX size={18} />
+                      </ActionIcon>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setComplains((prev) => [...prev, { ...DEFAULT_COMPLAIN }]);
+            }}
+          >
+            Add Complain
+          </Button>
         </Flex>
       </Section>
     </Flex>

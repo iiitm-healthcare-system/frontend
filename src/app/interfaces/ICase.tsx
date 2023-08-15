@@ -15,10 +15,9 @@ export interface ICase {
   };
   complaints: {
     description: string;
-    duration: number;
     severity: "moderate" | "high" | "mild";
     frequency: "constant" | "hourly" | "daily" | "weekly" | "rarely";
-    since: string;
+    duration: number;
   }[];
   diagnosis: string[];
   prescriptions: {
