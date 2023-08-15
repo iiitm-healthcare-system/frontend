@@ -17,7 +17,12 @@ function Page() {
       ) : (
         <>
           {userData.role == "admin" ? (
-            <Analytics />
+            <>
+              <Analytics />
+              <Title order={4} px={24}>
+                Cases
+              </Title>
+            </>
           ) : (
             <Flex
               className={styles.header}

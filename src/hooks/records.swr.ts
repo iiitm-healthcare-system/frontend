@@ -114,10 +114,10 @@ export function useAnalytics(timeframe: string, type: string) {
 export function useQuickStats() {
   return {
     quickStatsData: {
-      cases: 547,
+      cases: 647,
       admitted: 3,
       recovered: 544,
-      ongoing: 0,
+      ongoing: 46,
     },
     isQuickStatsDataLoading: false,
     errorFetchingQuickStatsData: false,
