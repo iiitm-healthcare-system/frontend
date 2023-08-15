@@ -21,7 +21,7 @@ export function useUser() {
       name: "Dr. Subhash Gupta",
       email: "test@gmail.com",
       phone: "1234567890",
-      role: "doctor",
+      role: "admin",
     } as IUser,
     isUserDataLoading: false,
     errorFetchingUserData: false

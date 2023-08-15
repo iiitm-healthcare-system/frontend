@@ -91,13 +91,35 @@ export function useRecords(page: number, limit: number) {
           advice: "Take Bed Rest",
         },
       ],
-      status: ["admit", "ongoing", "completed"][
-        Math.floor(Math.random() * 3)
-      ],
+      status: ["admit", "ongoing", "completed"][Math.floor(Math.random() * 3)],
       createdAt: new Date("2021-08-01T18:30:00.000Z"),
     })) as ICase[],
     isRecordsDataLoading: false,
     errorFetchingRecordsData: false,
     totalRecordsCount: Math.floor(Math.random() * 200) + 50,
+  };
+}
+
+export function useAnalytics(timeframe: string, type: string) {
+  return {
+    analytiicsData: new Array(10).fill(0).map((_, index) => ({
+      name: "Data " + index,
+      amt: Math.floor(Math.random() * 1000),
+    })),
+    isAnalyticsDataLoading: false,
+    errorFetchingAnalyticsData: false,
+  };
+}
+
+export function useQuickStats() {
+  return {
+    quickStatsData: {
+      cases: 547,
+      admitted: 3,
+      recovered: 544,
+      ongoing: 0,
+    },
+    isQuickStatsDataLoading: false,
+    errorFetchingQuickStatsData: false,
   };
 }
