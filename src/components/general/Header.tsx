@@ -16,9 +16,9 @@ function Header() {
       direction="row"
       justify="space-between"
       align="center"
-      px={30}
-      py={18}
+      className={styles.container}
       gap={24}
+      p={0}
     >
       <Flex direction="row" align="center" gap={16}>
         <Image width={20.1} height={32} src={IIITMIcon} alt="IIITM Logo" />
