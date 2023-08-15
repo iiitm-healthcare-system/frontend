@@ -14,6 +14,7 @@ import {
   TextInput,
   Table,
   ActionIcon,
+  MultiSelect,
 } from "@mantine/core";
 import Link from "next/link";
 import {
@@ -116,6 +117,9 @@ function ReportEditor() {
       frequency: "constant" | "hourly" | "daily" | "weekly" | "rarely";
     }[]
   >([{ ...DEFAULT_COMPLAIN }]);
+
+  const [diagnosisOptions, setDiagnosisOptions] = React.useState<string[]>([]);
+  const [diagnosis, setDiagnosis] = React.useState<string[]>([]);
 
   return (
     <Flex className={styles.container} direction="column" gap="xl">
@@ -300,6 +304,30 @@ function ReportEditor() {
           >
             Add Complain
           </Button>
+        </Flex>
+      </Section>
+      <Section title="Diagnosis">
+        <Flex
+          direction="column"
+          style={{
+            maxWidth: "35rem",
+          }}
+        >
+          <MultiSelect
+            width={500}
+            label="Diagnosis"
+            data={[]}
+            placeholder="Add items"
+            searchable
+            creatable
+            getCreateLabel={(query) => `+ Add ${query}`}
+            onCreate={(query) => {
+              setDiagnosisOptions([...diagnosisOptions, query]);
+              return query;
+            }}
+            onChange={setDiagnosis}
+            size="md"
+          />
         </Flex>
       </Section>
     </Flex>

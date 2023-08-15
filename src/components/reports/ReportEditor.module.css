@@ -1,5 +1,6 @@
 .container {
   padding: 1.25rem max(1.5rem, calc(50vw - (var(--max-width) / 2)));
+  padding-bottom: 3rem;
 }
 
 .overview {
