@@ -15,6 +15,7 @@ import {
   Table,
   ActionIcon,
   MultiSelect,
+  Checkbox,
 } from "@mantine/core";
 import Link from "next/link";
 import {
@@ -22,6 +23,7 @@ import {
   IconChevronLeft,
   IconClothesRack,
   IconCross,
+  IconPlus,
   IconScaleOutline,
   IconThermometer,
   IconTrash,
@@ -29,6 +31,7 @@ import {
 } from "@tabler/icons-react";
 import { IUser } from "@/app/interfaces/IUser";
 import { useSearchUser } from "@/hooks/user.swr";
+import { ICase } from "@/app/interfaces/ICase";
 
 const Section = ({
   title,
@@ -45,11 +48,6 @@ const Section = ({
   );
 };
 
-// height: 167,
-// weight: 87,
-// pulse: 124,
-// temperature: 103,
-// bloodPressure: "120/80",
 const VITALS_DATA = [
   {
     label: "Height",
@@ -75,25 +73,36 @@ const VITALS_DATA = [
     icon: IconThermometer,
     key: "temperature",
   },
-  // {
-  //   label: "blood Pressure",
-  //   component: TextInput,
-  //   icon: IconActivityHeartbeat,
-  //   key: "bloodPressure",
-  // },
 ];
 
-const DEFAULT_COMPLAIN: {
-  description: string;
-  duration: number;
-  severity: "moderate" | "high" | "mild";
-  frequency: "constant" | "hourly" | "daily" | "weekly" | "rarely";
-} = {
+const DEFAULT_COMPLAIN: ICase["complaints"][0] = {
   description: "-",
   duration: 1,
   severity: "mild",
   frequency: "constant",
 };
+
+const DEFAULT_MEDICATION: ICase["prescriptions"][0]["medications"][0] = {
+  name: "",
+  quantity: 3,
+  dosage: {
+    morning: {
+      beforeMeal: false,
+      afterMeal: true,
+    },
+    afternoon: {
+      beforeMeal: false,
+      afterMeal: true,
+    },
+    night: {
+      beforeMeal: false,
+      afterMeal: true,
+    },
+  },
+  notes: "",
+  type: "dosage",
+};
+
 function ReportEditor() {
   const [patient, setPatient] = React.useState<IUser | null>(null);
   const [patientSearchQuery, setPatientSearchQuery] =
@@ -109,17 +118,23 @@ function ReportEditor() {
     bloodPressure: "0/0",
   });
 
-  const [complainsData, setComplains] = React.useState<
-    {
-      description: string;
-      duration: number;
-      severity: "moderate" | "high" | "mild";
-      frequency: "constant" | "hourly" | "daily" | "weekly" | "rarely";
-    }[]
-  >([{ ...DEFAULT_COMPLAIN }]);
+  const [complainsData, setComplains] = React.useState<ICase["complaints"]>([
+    { ...DEFAULT_COMPLAIN },
+  ]);
 
   const [diagnosisOptions, setDiagnosisOptions] = React.useState<string[]>([]);
   const [diagnosis, setDiagnosis] = React.useState<string[]>([]);
+
+  const [prescription, setPrescription] = React.useState<
+    ICase["prescriptions"][0]
+  >({
+    medications: [
+      {
+        ...DEFAULT_MEDICATION,
+      },
+    ],
+    advice: "",
+  });
 
   return (
     <Flex className={styles.container} direction="column" gap="xl">
@@ -328,6 +343,185 @@ function ReportEditor() {
             onChange={setDiagnosis}
             size="md"
           />
+        </Flex>
+      </Section>
+      <Section title="Prescription">
+        <Flex
+          direction="column"
+          gap="lg"
+          style={{
+            width: "fit-content",
+          }}
+        >
+          <Title order={6}>Medications</Title>
+          {prescription.medications.map((medication, medicationIndex) => (
+            <Flex
+              direction="column"
+              p={16}
+              gap={12}
+              key={medicationIndex}
+              className={styles.medicationBox}
+            >
+              <Flex gap={12} align="center">
+                <TextInput
+                  style={{
+                    width: "100%",
+                  }}
+                  size="md"
+                  name="medication-name"
+                  placeholder="Medication Name"
+                  value={medication.name}
+                  onChange={(event) => {
+                    setPrescription((prev) => {
+                      const newPrescription = { ...prev };
+                      newPrescription.medications[medicationIndex].name =
+                        event.target.value;
+                      return newPrescription;
+                    });
+                  }}
+                />
+                <NumberInput
+                  style={{
+                    width: "fit-content",
+                  }}
+                  size="md"
+                  value={medication.quantity}
+                  onChange={(value) => {
+                    setPrescription((prev) => {
+                      const newPrescription = { ...prev };
+                      newPrescription.medications[medicationIndex].quantity =
+                        value || 0;
+                      return newPrescription;
+                    });
+                  }}
+                />
+                <ActionIcon
+                  onClick={() => {
+                    setPrescription((prev) => {
+                      const newPrescription = { ...prev };
+                      newPrescription.medications.splice(medicationIndex, 1);
+                      return newPrescription;
+                    });
+                  }}
+                >
+                  <IconX size={18} />
+                </ActionIcon>
+              </Flex>
+              <Flex>
+                <Select
+                  variant="unstyled"
+                  data={[
+                    { label: "Dosage", value: "dosage" },
+                    { label: "Notes", value: "notes" },
+                  ]}
+                  value={medication.type}
+                  onChange={(value) => {
+                    setPrescription((prev) => {
+                      const newPrescription = { ...prev };
+                      newPrescription.medications[medicationIndex].type =
+                        (value?.toLocaleLowerCase() ??
+                          "dosage") as ICase["prescriptions"][0]["medications"][0]["type"];
+                      return newPrescription;
+                    });
+                  }}
+                />
+              </Flex>
+              {medication.type == "dosage" ? (
+                <Flex gap={12}>
+                  {Object.keys(DEFAULT_MEDICATION.dosage).map(
+                    (dosageTime, dosageIndex) => (
+                      <Flex
+                        direction="column"
+                        gap="md"
+                        key={dosageIndex}
+                        p={12}
+                        className={styles.dosageItem}
+                      >
+                        <Text transform="capitalize" weight="600">
+                          {dosageTime}
+                        </Text>
+                        <Flex gap={16}>
+                          <Checkbox
+                            checked={
+                              medication.dosage?.[
+                                dosageTime as keyof typeof medication.dosage
+                              ].beforeMeal
+                            }
+                            label="Before"
+                            onChange={(event) => {
+                              setPrescription((prev) => {
+                                const newPrescription = { ...prev };
+                                newPrescription.medications[
+                                  medicationIndex
+                                ].dosage[
+                                  dosageTime as keyof typeof medication.dosage
+                                ].beforeMeal = event.target.checked;
+
+                                return newPrescription;
+                              });
+                            }}
+                          />
+                          <Checkbox
+                            checked={
+                              medication.dosage?.[
+                                dosageTime as keyof typeof medication.dosage
+                              ].afterMeal
+                            }
+                            label="After"
+                            onChange={(event) => {
+                              setPrescription((prev) => {
+                                const newPrescription = { ...prev };
+                                newPrescription.medications[
+                                  medicationIndex
+                                ].dosage[
+                                  dosageTime as keyof typeof medication.dosage
+                                ].afterMeal = event.target.checked;
+
+                                return newPrescription;
+                              });
+                            }}
+                          />
+                        </Flex>
+                      </Flex>
+                    )
+                  )}
+                </Flex>
+              ) : (
+                <TextInput
+                  label="Notes for Medication"
+                  placeholder="Take when Headache"
+                  value={medication.notes}
+                  onChange={(event) => {
+                    setPrescription((prev) => {
+                      const newPrescription = { ...prev };
+                      newPrescription.medications[medicationIndex].notes =
+                        event.target.value ?? "";
+                      return newPrescription;
+                    });
+                  }}
+                />
+              )}
+            </Flex>
+          ))}
+          <Flex>
+            <Button
+              leftIcon={<IconPlus size={18} />}
+              onClick={() => {
+                setPrescription((prev) => {
+                  const newPrescription = { ...prev };
+                  newPrescription.medications = [
+                    ...newPrescription.medications,
+                    { ...DEFAULT_MEDICATION },
+                  ];
+                  return newPrescription;
+                });
+              }}
+              variant="outline"
+              size="md"
+            >
+              Add Medication
+            </Button>
+          </Flex>
         </Flex>
       </Section>
     </Flex>

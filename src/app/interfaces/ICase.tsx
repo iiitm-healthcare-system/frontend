@@ -24,7 +24,7 @@ export interface ICase {
     medications: {
       name: string;
       quantity: number;
-      dosage?: {
+      dosage: {
         morning: {
           beforeMeal: boolean;
           afterMeal: boolean;
@@ -33,16 +33,13 @@ export interface ICase {
           beforeMeal: boolean;
           afterMeal: boolean;
         };
-        evening: {
-          beforeMeal: boolean;
-          afterMeal: boolean;
-        };
         night: {
           beforeMeal: boolean;
           afterMeal: boolean;
         };
       };
-      notes?: string;
+      notes: string;
+      type: "dosage" | "notes";
     }[];
     advice: string;
   }[];

@@ -70,15 +70,12 @@ export function useRecords(page: number, limit: number) {
                   beforeMeal: true,
                   afterMeal: false,
                 },
-                evening: {
-                  beforeMeal: false,
-                  afterMeal: false,
-                },
                 night: {
                   beforeMeal: true,
                   afterMeal: false,
                 },
               },
+              notes: "",
             },
             {
               name: "Medications - 200 mg",
@@ -86,6 +83,7 @@ export function useRecords(page: number, limit: number) {
               notes: "Take when headache",
             },
           ],
+
           advice: "Take Bed Rest",
         },
       ],

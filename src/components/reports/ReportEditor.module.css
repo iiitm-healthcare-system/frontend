@@ -10,3 +10,14 @@
   background-color: var(--primary-color---light);
   border-radius: 1rem;
 }
+
+.medicationBox {
+  background-color: var(--light-bg);
+  border-radius: 1rem;
+  /* width: fit-content; */
+}
+
+.dosageItem {
+  background-color: white;
+  border-radius: 1rem;
+}
