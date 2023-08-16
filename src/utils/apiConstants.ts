@@ -3,10 +3,14 @@ class APIConstants {
 
   // Controllers
   AUTH = this.BASE_URL + "/auth";
+  USER = this.BASE_URL + "/user";
 
-  // Customer Endpoints
+  // Auth Endpoints
   LOGIN = this.AUTH + "/login";
   GOOGLE_LOGIN = this.AUTH + "/google-login";
+
+  // User Endpoints
+  GET_USER = this.USER + "/";
 }
 
 const API_CONSTANTS = new APIConstants();

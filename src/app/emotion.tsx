@@ -1,13 +1,15 @@
 "use client";
 
+import React from "react";
 import { CacheProvider } from "@emotion/react";
 import { useEmotionCache, MantineProvider } from "@mantine/core";
-import { useServerInsertedHTML } from "next/navigation";
+import { usePathname, useRouter, useServerInsertedHTML } from "next/navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import config from "@/utils/config";
 import { Manrope } from "next/font/google";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import { useUser } from "@/hooks/user.swr";
 
 const manropeFont = Manrope({ subsets: ["latin"], fallback: ["Manrope"] });
 
@@ -25,6 +27,28 @@ export default function RootStyleRegistry({
   ) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + token;
   }
+
+  const { userData, errorFetchingUserData, isUserDataLoading } = useUser();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!isUserDataLoading) {
+      const isNotLoggedIn = errorFetchingUserData || !userData;
+      if (!isNotLoggedIn) {
+        if (!pathname.startsWith("/dashboard")) {
+          router.push("/dashboard");
+          console.log("PUSHING TO DASHBOARD");
+        }
+      } else {
+        if (pathname != "/") {
+          router.push("/");
+          console.log("PUSHING TO HOME");
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUserDataLoading, userData, errorFetchingUserData, pathname]);
 
   const cache = useEmotionCache();
   cache.compat = true;

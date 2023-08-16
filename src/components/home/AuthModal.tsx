@@ -46,9 +46,16 @@ function AuthModal({ closeModal }: { closeModal: () => void }) {
     API_CONSTANTS.LOGIN,
     genericMutationFetcher
   );
-
   const { trigger: googleLogin, isMutating: isAuthenticatingWithGoogle } =
     useSWRMutation(API_CONSTANTS.GOOGLE_LOGIN, genericMutationFetcher);
+
+  const handleAuthSuccess = async (token: string) => {
+    setCookie("token", token);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    await mutate([API_CONSTANTS.GET_USER, "get"]);
+    router.push("/dashboard");
+    notificationManager.showSuccess("Login Successful", "Redirecting...");
+  };
 
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
@@ -56,10 +63,7 @@ function AuthModal({ closeModal }: { closeModal: () => void }) {
         type: "post",
         rest: [values],
       });
-      setCookie("token", token);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      router.push("/dashboard");
-      notificationManager.showSuccess("Login Successful", "Redirecting...");
+      handleAuthSuccess(token);
     } catch (err: any) {
       console.log(err);
       notificationManager.showError(err);
@@ -77,10 +81,7 @@ function AuthModal({ closeModal }: { closeModal: () => void }) {
             },
           ],
         });
-        setCookie("token", token);
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        router.push("/dashboard");
-        notificationManager.showSuccess("Login Successful", "Redirecting...");
+        handleAuthSuccess(token);
       } catch (err: any) {
         console.log(err);
         notificationManager.showError(err);
