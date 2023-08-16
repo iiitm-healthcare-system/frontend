@@ -8,6 +8,7 @@ import AvaterIcon from "@/assets/general/avatar_icon.svg";
 import { useUser } from "@/hooks/user.swr";
 import { IconUser } from "@tabler/icons-react";
 import styles from "./Header.module.css";
+import Link from "next/link";
 
 function Header() {
   const { userData, errorFetchingUserData, isUserDataLoading } = useUser();
@@ -20,12 +21,14 @@ function Header() {
       gap={24}
       p={0}
     >
-      <Flex direction="row" align="center" gap={16}>
-        <Image width={20.1} height={32} src={IIITMIcon} alt="IIITM Logo" />
-        <Title order={2} size="md">
-          Health Center
-        </Title>
-      </Flex>
+      <Link href={"/dashboard"}>
+        <Flex direction="row" align="center" gap={16}>
+          <Image width={20.1} height={32} src={IIITMIcon} alt="IIITM Logo" />
+          <Title order={2} size="md">
+            Health Center
+          </Title>
+        </Flex>
+      </Link>
       {isUserDataLoading || errorFetchingUserData || !userData ? (
         <Skeleton width={150} height={32.8} />
       ) : (

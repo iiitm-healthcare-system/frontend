@@ -1,7 +1,10 @@
+"use client";
+
 import { useRecords } from "@/hooks/records.swr";
 import { Flex, Pagination, Skeleton, Table } from "@mantine/core";
 import React from "react";
 import styles from "./DataList.module.css";
+import { useRouter } from "next/navigation";
 
 const STATUS_COLOR = {
   admit: "red",
@@ -10,6 +13,8 @@ const STATUS_COLOR = {
 };
 
 function DataList() {
+  const router = useRouter();
+
   const [page, setPage] = React.useState(1);
   const {
     recordsData,
@@ -52,7 +57,13 @@ function DataList() {
         </thead>
         <tbody>
           {recordsData.map((record) => (
-            <tr key={record._id}>
+            <tr
+              key={record._id}
+              onClick={() => router.push(`/dashboard/case/${record._id}`)}
+              style={{
+                cursor: "pointer",
+              }}
+            >
               <td>{record.patient?.name}</td>
               <td>{record.patient?.email}</td>
               <td>{new Date(record.createdAt).toDateString()}</td>
