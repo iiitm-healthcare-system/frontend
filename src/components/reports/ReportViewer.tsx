@@ -39,6 +39,7 @@ import {
   IconStethoscope,
   IconThermometer,
   IconTrash,
+  IconWebhook,
   IconX,
 } from "@tabler/icons-react";
 import { IUser } from "@/app/interfaces/IUser";
@@ -312,7 +313,7 @@ function ReportViewer() {
                   : "Actions"}
               </Title>
             }
-            bullet={<IconStethoscope size={14} />}
+            bullet={<IconWebhook size={14} />}
           >
             {recordData.status == "completed" ? (
               <>
