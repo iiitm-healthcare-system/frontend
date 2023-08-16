@@ -1,13 +1,12 @@
 class APIConstants {
-  BASE_URL = "http://localhost:8080";
+  BASE_URL = "http://localhost:8000/api/v1";
 
   // Controllers
-  GENERAL = this.BASE_URL + "/general";
-  USER = this.BASE_URL + "/general/customer";
+  AUTH = this.BASE_URL + "/auth";
 
   // Customer Endpoints
-  LOGIN = this.USER + "/authenticate";
-  GET_USER = this.USER + "/getCustomerDetailsByJwtToken";
+  LOGIN = this.AUTH + "/login";
+  GOOGLE_LOGIN = this.AUTH + "/google-login";
 }
 
 const API_CONSTANTS = new APIConstants();

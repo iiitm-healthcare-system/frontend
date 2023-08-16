@@ -15,6 +15,9 @@ import { useCookies } from "react-cookie";
 
 import styles from "./AuthModal.module.css";
 import IconGoogle from "@/assets/icons/Google.svg";
+import API_CONSTANTS from "@/utils/apiConstants";
+import { genericMutationFetcher } from "@/utils/helpers/swr.helper";
+import { useRouter } from "next/navigation";
 
 const InputComponent = {
   text: TextInput,
@@ -23,9 +26,8 @@ const InputComponent = {
 };
 
 function AuthModal({ closeModal }: { closeModal: () => void }) {
+  const router = useRouter();
   const [, setCookie] = useCookies();
-  const [googleAccountFetching, setGoogleAccountFetching] =
-    React.useState<boolean>(false);
   const mForm: UseFormReturnType<any> = useForm({
     initialValues: {
       email: "",
@@ -40,38 +42,24 @@ function AuthModal({ closeModal }: { closeModal: () => void }) {
     },
   });
 
-  // const { trigger: authenticate, isMutating } = useSWRMutation(
-  //   "authenticate",
-  //   authenticationFetcher
-  // );
+  const { trigger: login, isMutating: isAuthenticating } = useSWRMutation(
+    API_CONSTANTS.LOGIN,
+    genericMutationFetcher
+  );
 
-  // const handleAuthSuccess = async (
-  //   token: string,
-  //   messageContents: (typeof COMPONENT_DATA.messages)[keyof typeof COMPONENT_DATA.messages]
-  // ) => {
-  //   setCookie("token", token);
-  //   axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-
-  //   notificationManager.showSuccess(
-  //     messageContents.title,
-  //     messageContents.description
-  //   );
-
-  //   mutate(API_CONSTANTS.GET_USER);
-  //   closeModal();
-  // };
+  const { trigger: googleLogin, isMutating: isAuthenticatingWithGoogle } =
+    useSWRMutation(API_CONSTANTS.GOOGLE_LOGIN, genericMutationFetcher);
 
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
-      // let token = await authenticate({
-      //   data: values,
-      // });
-      // handleAuthSuccess(
-      //   token,
-      //   COMPONENT_DATA.messages[
-      //     currentVariant as keyof typeof COMPONENT_DATA.messages
-      //   ]
-      // );
+      const { data: token } = await login({
+        type: "post",
+        rest: [values],
+      });
+      setCookie("token", token);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      router.push("/dashboard");
+      notificationManager.showSuccess("Login Successful", "Redirecting...");
     } catch (err: any) {
       console.log(err);
       notificationManager.showError(err);
@@ -81,26 +69,30 @@ function AuthModal({ closeModal }: { closeModal: () => void }) {
   const handleGoogleAuth = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       try {
-        // let token = await authenticate({
-        //   authType: "google",
-        //   data: codeResponse.code,
-        // });
-        // handleAuthSuccess(token, COMPONENT_DATA.messages.google);
+        const { data: token } = await googleLogin({
+          type: "post",
+          rest: [
+            {
+              code: codeResponse.code,
+            },
+          ],
+        });
+        setCookie("token", token);
+        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        router.push("/dashboard");
+        notificationManager.showSuccess("Login Successful", "Redirecting...");
       } catch (err: any) {
         console.log(err);
         notificationManager.showError(err);
       }
-      setGoogleAccountFetching(false);
     },
     onError: (error) => {
       console.log("Google login failed", error);
       notificationManager.showError(error);
-      setGoogleAccountFetching(false);
     },
     flow: "auth-code",
   });
   const loginWithGoogle = async () => {
-    setGoogleAccountFetching(true);
     handleGoogleAuth();
   };
 

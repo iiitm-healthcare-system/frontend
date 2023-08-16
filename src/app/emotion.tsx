@@ -6,6 +6,9 @@ import { useServerInsertedHTML } from "next/navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import config from "@/utils/config";
 import { Manrope } from "next/font/google";
+import axios from "axios";
+import { Cookies } from "react-cookie";
+
 const manropeFont = Manrope({ subsets: ["latin"], fallback: ["Manrope"] });
 
 export default function RootStyleRegistry({
@@ -13,6 +16,16 @@ export default function RootStyleRegistry({
 }: {
   children: React.ReactNode;
 }) {
+  // Axios
+  const token = new Cookies().get("token");
+  console.log("TOKEN -- CC", token);
+  if (
+    token &&
+    axios.defaults.headers.common["Authorization"] != "Bearer " + token
+  ) {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+  }
+
   const cache = useEmotionCache();
   cache.compat = true;
 

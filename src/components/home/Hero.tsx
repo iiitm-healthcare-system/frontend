@@ -40,7 +40,6 @@ const features = [
 function Hero() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  console.log(searchParams);
 
   const handleCloseModal = () => {
     router.push("/");
