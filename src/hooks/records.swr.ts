@@ -196,8 +196,17 @@ export function useRecord(recordId: string) {
         ],
         advice: "Take Bed Rest",
       },
-
       createdAt: new Date("2021-08-01T18:30:00.000Z"),
+      completedAt: new Date("2021-08-01T18:30:00.000Z"),
+      completedBy: {
+        _id: (200 + index).toString(),
+        name: "Admin " + index,
+        email: `attendant_${index + 1}iiitm.ac.in`,
+        dob: "1995-08-01" as string,
+        gender: "Female",
+        phone: "1234567890",
+        role: "attendant",
+      },
     } as ICase,
     isRecordDataLoading: false,
     errorFetchingRecordData: false,

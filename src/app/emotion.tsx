@@ -36,7 +36,7 @@ export default function RootStyleRegistry({
             colorScheme: "light",
             colors: {
               primary: [
-                "#F1F3F5",
+                "#F4F9FF",
                 "#CED8E0",
                 "#A9BFD4",
                 "#80AAD1",

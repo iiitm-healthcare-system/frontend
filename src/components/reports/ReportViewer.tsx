@@ -28,6 +28,7 @@ import {
   IconAlertTriangle,
   IconCheck,
   IconChevronLeft,
+  IconCircleCheckFilled,
   IconClothesRack,
   IconCross,
   IconDiscountCheck,
@@ -160,7 +161,7 @@ function ReportViewer() {
         </Flex>
       </Section>
       <Section title="Diagnosis History">
-        <Timeline active={1} bulletSize={30} lineWidth={4}>
+        <Timeline active={3} bulletSize={30} lineWidth={4}>
           <Timeline.Item
             title={<Title order={6}>Case Filed</Title>}
             bullet={<IconStethoscope size={14} />}
@@ -302,6 +303,38 @@ function ReportViewer() {
               </Title>
               <Text>{recordData.prescription.advice}</Text>
             </Flex>
+          </Timeline.Item>
+          <Timeline.Item
+            title={
+              <Title order={6}>
+                {recordData.status == "completed"
+                  ? "Marked As Complete"
+                  : "Actions"}
+              </Title>
+            }
+            bullet={<IconStethoscope size={14} />}
+          >
+            {recordData.status == "completed" ? (
+              <>
+                <Text size="lg">
+                  By{" "}
+                  <Text span weight="700" color="primary">
+                    {recordData.completedBy?.name}
+                  </Text>
+                </Text>
+                <Text size="sm" color="dimmed" mt={4}>
+                  {new Date(recordData.completedAt ?? 0).toLocaleString()}
+                </Text>
+              </>
+            ) : (
+              <Button
+                rightIcon={<IconCheck size={16} />}
+                variant="filled"
+                color="teal"
+              >
+                Mark As Complete
+              </Button>
+            )}
           </Timeline.Item>
         </Timeline>
       </Section>

@@ -44,5 +44,7 @@ export interface ICase {
     }[];
     advice: string;
   };
+  completedAt?: Date;
+  completedBy?: IUser;
   createdAt: Date;
 }
