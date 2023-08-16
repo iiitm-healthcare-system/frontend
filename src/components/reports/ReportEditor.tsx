@@ -83,7 +83,7 @@ const DEFAULT_COMPLAIN: ICase["complaints"][0] = {
   frequency: "constant",
 };
 
-const DEFAULT_MEDICATION: ICase["prescriptions"][0]["medications"][0] = {
+const DEFAULT_MEDICATION: ICase["prescription"]["medications"][0] = {
   name: "",
   quantity: 3,
   dosage: {
@@ -102,6 +102,7 @@ const DEFAULT_MEDICATION: ICase["prescriptions"][0]["medications"][0] = {
   },
   notes: "",
   type: "dosage",
+  provided: false,
 };
 
 function ReportEditor() {
@@ -126,16 +127,16 @@ function ReportEditor() {
   const [diagnosisOptions, setDiagnosisOptions] = React.useState<string[]>([]);
   const [diagnosis, setDiagnosis] = React.useState<string[]>([]);
 
-  const [prescription, setPrescription] = React.useState<
-    ICase["prescriptions"][0]
-  >({
-    medications: [
-      {
-        ...DEFAULT_MEDICATION,
-      },
-    ],
-    advice: "",
-  });
+  const [prescription, setPrescription] = React.useState<ICase["prescription"]>(
+    {
+      medications: [
+        {
+          ...DEFAULT_MEDICATION,
+        },
+      ],
+      advice: "",
+    }
+  );
 
   const [advice, setAdvice] = React.useState<string>("");
 
@@ -423,7 +424,7 @@ function ReportEditor() {
                       const newPrescription = { ...prev };
                       newPrescription.medications[medicationIndex].type =
                         (value?.toLocaleLowerCase() ??
-                          "dosage") as ICase["prescriptions"][0]["medications"][0]["type"];
+                          "dosage") as ICase["prescription"]["medications"][0]["type"];
                       return newPrescription;
                     });
                   }}

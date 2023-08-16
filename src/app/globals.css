@@ -23,7 +23,7 @@ body {
   --grey-bg: #f3f3f3;
   --dark-bg---secondary: #000000cc;
   --yellow---default: #f8c45540;
-  --light-bg: rgba(245, 245, 245, 0.80);
+  --light-bg: rgba(245, 245, 245, 0.20);
   --background-fade: #f8f8f8;
 
   /* Text-size styles */

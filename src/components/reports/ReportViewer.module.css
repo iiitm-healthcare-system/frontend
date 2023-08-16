@@ -2,3 +2,24 @@
   padding: 1.25rem max(1.5rem, calc(50vw - (var(--max-width) / 2)));
   padding-bottom: 3rem;
 }
+
+.patientInfo {
+  background-color: var(--primary-color---light);
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.medicationCard {
+  background-color: var(--light-bg);
+  border: 0.5px solid #dfdfdf;
+  border-radius: 1rem;
+  transition: all .2s ease-out;
+}
+
+.medicationCard:hover {
+  background-color: white;
+  -webkit-box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.08);
+}

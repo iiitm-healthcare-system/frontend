@@ -55,38 +55,37 @@ export function useRecords(page: number, limit: number) {
         },
       ],
       diagnosis: ["fever", "cough", "cold"],
-      prescriptions: [
-        {
-          medications: [
-            {
-              name: "Amoxicillin - 500 mg",
-              quantity: 8,
-              dosage: {
-                morning: {
-                  beforeMeal: true,
-                  afterMeal: false,
-                },
-                afternoon: {
-                  beforeMeal: true,
-                  afterMeal: false,
-                },
-                night: {
-                  beforeMeal: true,
-                  afterMeal: false,
-                },
+      prescription: {
+        medications: [
+          {
+            name: "Amoxicillin - 500 mg",
+            quantity: 8,
+            dosage: {
+              morning: {
+                beforeMeal: true,
+                afterMeal: false,
               },
-              notes: "",
+              afternoon: {
+                beforeMeal: true,
+                afterMeal: false,
+              },
+              night: {
+                beforeMeal: true,
+                afterMeal: false,
+              },
             },
-            {
-              name: "Medications - 200 mg",
-              quantity: 6,
-              notes: "Take when headache",
-            },
-          ],
+            provided: Math.random() > 0.5,
+            notes: "",
+          },
+          {
+            name: "Medications - 200 mg",
+            quantity: 6,
+            notes: "Take when headache",
+          },
+        ],
 
-          advice: "Take Bed Rest",
-        },
-      ],
+        advice: "Take Bed Rest",
+      },
       status: ["admit", "ongoing", "completed"][Math.floor(Math.random() * 3)],
       createdAt: new Date("2021-08-01T18:30:00.000Z"),
     })) as ICase[],
@@ -105,16 +104,28 @@ export function useRecord(recordId: string) {
         _id: (50 + index).toString(),
         name: "patinet " + index,
         email: `imt_2020${index + 1}@iiitm.ac.in`,
+        dob: "1999-08-01" as string,
+        phone: "1234567890",
+        gender: "Male",
+        role: "patient",
       },
       doctor: {
         _id: (100 + index).toString(),
         name: "Dr John " + index,
         email: `dcotor_${index + 1}@iiitm.ac.in`,
+        dob: "1995-08-01" as string,
+        gender: "Male",
+        phone: "1234567890",
+        role: "doctor",
       },
       attendant: {
         _id: (150 + index).toString(),
-        name: "Mr Attendant " + index,
+        name: "Ms Attendant " + index,
         email: `attendant_${index + 1}iiitm.ac.in`,
+        dob: "1995-08-01" as string,
+        gender: "Female",
+        phone: "1234567890",
+        role: "attendant",
       },
       vitals: {
         height: 167,
@@ -138,39 +149,56 @@ export function useRecord(recordId: string) {
         },
       ],
       diagnosis: ["fever", "cough", "cold"],
-      prescriptions: [
-        {
-          medications: [
-            {
-              name: "Amoxicillin - 500 mg",
-              quantity: 8,
-              dosage: {
-                morning: {
-                  beforeMeal: true,
-                  afterMeal: false,
-                },
-                afternoon: {
-                  beforeMeal: true,
-                  afterMeal: false,
-                },
-                night: {
-                  beforeMeal: true,
-                  afterMeal: false,
-                },
+      status: "ongoing",
+      prescription: {
+        medications: [
+          {
+            name: "Amoxicillin - 500 mg",
+            quantity: 8,
+            dosage: {
+              morning: {
+                beforeMeal: true,
+                afterMeal: false,
               },
-              notes: "",
+              afternoon: {
+                beforeMeal: true,
+                afterMeal: false,
+              },
+              night: {
+                beforeMeal: true,
+                afterMeal: true,
+              },
             },
-            {
-              name: "Medications - 200 mg",
-              quantity: 6,
-              notes: "Take when headache",
+            notes: "",
+            type: "dosage",
+            provided: true,
+          },
+          {
+            name: "Amoxicillin - 500 mg",
+            quantity: 8,
+            dosage: {
+              morning: {
+                beforeMeal: true,
+                afterMeal: false,
+              },
+              afternoon: {
+                beforeMeal: true,
+                afterMeal: false,
+              },
+              night: {
+                beforeMeal: true,
+                afterMeal: false,
+              },
             },
-          ],
+            notes: "Take When headache",
+            type: "notes",
+          },
+        ],
+        advice: "Take Bed Rest",
+      },
 
-          advice: "Take Bed Rest",
-        },
-      ],
-    },
+      createdAt: new Date("2021-08-01T18:30:00.000Z"),
+    } as ICase,
     isRecordDataLoading: false,
     errorFetchingRecordData: false,
   };

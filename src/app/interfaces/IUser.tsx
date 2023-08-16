@@ -4,4 +4,6 @@ export interface IUser {
   email: string;
   phone: string;
   role: "doctor" | "patient" | "attendant" | "admin";
+  dob: "string";
+  gender: "Male" | "Female" | "Others";
 }

@@ -20,7 +20,7 @@ export interface ICase {
     duration: number;
   }[];
   diagnosis: string[];
-  prescriptions: {
+  prescription: {
     medications: {
       name: string;
       quantity: number;
@@ -38,10 +38,11 @@ export interface ICase {
           afterMeal: boolean;
         };
       };
+      provided: boolean;
       notes: string;
       type: "dosage" | "notes";
     }[];
     advice: string;
-  }[];
+  };
   createdAt: Date;
 }
