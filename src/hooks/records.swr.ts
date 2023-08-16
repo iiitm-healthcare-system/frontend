@@ -96,6 +96,86 @@ export function useRecords(page: number, limit: number) {
   };
 }
 
+export function useRecord(recordId: string) {
+  const index = recordId;
+  return {
+    recordData: {
+      _id: index.toString(),
+      patient: {
+        _id: (50 + index).toString(),
+        name: "patinet " + index,
+        email: `imt_2020${index + 1}@iiitm.ac.in`,
+      },
+      doctor: {
+        _id: (100 + index).toString(),
+        name: "Dr John " + index,
+        email: `dcotor_${index + 1}@iiitm.ac.in`,
+      },
+      attendant: {
+        _id: (150 + index).toString(),
+        name: "Mr Attendant " + index,
+        email: `attendant_${index + 1}iiitm.ac.in`,
+      },
+      vitals: {
+        height: 167,
+        weight: 87,
+        pulse: 124,
+        temperature: 103,
+        bloodPressure: "120/80",
+      },
+      complaints: [
+        {
+          description: "weakness",
+          duration: 5,
+          severity: "high",
+          frequency: "constant",
+        },
+        {
+          description: "headache",
+          duration: 5,
+          severity: "high",
+          frequency: "constant",
+        },
+      ],
+      diagnosis: ["fever", "cough", "cold"],
+      prescriptions: [
+        {
+          medications: [
+            {
+              name: "Amoxicillin - 500 mg",
+              quantity: 8,
+              dosage: {
+                morning: {
+                  beforeMeal: true,
+                  afterMeal: false,
+                },
+                afternoon: {
+                  beforeMeal: true,
+                  afterMeal: false,
+                },
+                night: {
+                  beforeMeal: true,
+                  afterMeal: false,
+                },
+              },
+              notes: "",
+            },
+            {
+              name: "Medications - 200 mg",
+              quantity: 6,
+              notes: "Take when headache",
+            },
+          ],
+
+          advice: "Take Bed Rest",
+        },
+      ],
+    },
+    isRecordDataLoading: false,
+    errorFetchingRecordData: false,
+  };
+}
+
 export function useAnalytics(timeframe: string, type: string) {
   return {
     analytiicsData: new Array(10).fill(0).map((_, index) => ({
