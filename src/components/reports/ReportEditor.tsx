@@ -16,6 +16,7 @@ import {
   ActionIcon,
   MultiSelect,
   Checkbox,
+  Textarea,
 } from "@mantine/core";
 import Link from "next/link";
 import {
@@ -135,6 +136,8 @@ function ReportEditor() {
     ],
     advice: "",
   });
+
+  const [advice, setAdvice] = React.useState<string>("");
 
   return (
     <Flex className={styles.container} direction="column" gap="xl">
@@ -524,6 +527,20 @@ function ReportEditor() {
           </Flex>
         </Flex>
       </Section>
+      <Section title="Advice">
+        <Textarea
+          style={{
+            maxWidth: 500,
+          }}
+          size="md"
+          value={advice}
+          onChange={(event) => setAdvice(event.currentTarget.value)}
+          placeholder="Advice for Patient"
+        />
+      </Section>
+      <Flex>
+        <Button size="md">Continue</Button>
+      </Flex>
     </Flex>
   );
 }
