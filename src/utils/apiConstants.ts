@@ -11,6 +11,7 @@ class APIConstants {
 
   // User Endpoints
   GET_USER = this.USER + "/";
+  SEARCH_PATIENTS = this.USER + "/patients";
 }
 
 const API_CONSTANTS = new APIConstants();

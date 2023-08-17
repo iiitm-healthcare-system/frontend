@@ -42,7 +42,8 @@ function Header() {
       align="center"
       className={styles.container}
       gap={24}
-      p={0}
+      p={20}
+      px={24}
     >
       <Link href={"/dashboard"}>
         <Flex direction="row" align="center" gap={16}>
@@ -71,7 +72,7 @@ function Header() {
             <Menu.Target>
               <UnstyledButton>
                 <Flex gap={8}>
-                  <Text weight={600}>{userData.name}</Text>
+                  <Text transform="capitalize" weight={600}>{userData.name}</Text>
                   <Image src={AvaterIcon} alt="avater" width={25} height={25} />
                 </Flex>
               </UnstyledButton>

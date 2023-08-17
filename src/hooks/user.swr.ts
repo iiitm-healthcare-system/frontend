@@ -16,16 +16,31 @@ export function useUser() {
   };
 }
 
-export const useSearchUser = (query: string) => {
+export const useSearchUser = (query: string = "") => {
+  if (!query) {
+    query = " ";
+  }
+  if (query.includes("(")) {
+    query = query.split("(")[0];
+  }
+  query = query.trim();
+  query = query.replace(" ", "%20");
+  const { data, error, isLoading } = useSWR(
+    [
+      API_CONSTANTS.SEARCH_PATIENTS,
+      "get",
+      {
+        params: { query: query },
+      },
+      ,
+    ],
+    genericAPIFetcher
+  );
+
+  console.log(data?.data);
   return {
-    searchUserData: new Array(3).fill(0).map((_, index) => ({
-      _id: `${query}${index + 1}`,
-      name: `${query}` + (index ? index + 1 : ""),
-      email: `test${query}@gmail.com`,
-      phone: "1234567890",
-      role: "doctor",
-    })) as IUser[],
-    isSearchingUser: false,
-    errorSearchingUser: false,
+    searchUserData: (data?.data || []) as IUser[],
+    isSearchingUser: isLoading as boolean,
+    errorSearchingUser: error,
   };
 };

@@ -33,6 +33,7 @@ import {
 import { IUser } from "@/app/interfaces/IUser";
 import { useSearchUser } from "@/hooks/user.swr";
 import { ICase } from "@/app/interfaces/ICase";
+import { useDebouncedState } from "@mantine/hooks";
 
 const Section = ({
   title,
@@ -107,8 +108,12 @@ const DEFAULT_MEDICATION: ICase["prescription"]["medications"][0] = {
 
 function ReportEditor() {
   const [patient, setPatient] = React.useState<IUser | null>(null);
-  const [patientSearchQuery, setPatientSearchQuery] =
-    React.useState<string>("");
+  // const [patientSearchQuery, setPatientSearchQuery] =
+  //   React.useState<string>("");
+  const [patientSearchQuery, setPatientSearchQuery] = useDebouncedState(
+    "",
+    200
+  );
   const { searchUserData, errorSearchingUser, isSearchingUser } =
     useSearchUser(patientSearchQuery);
 
@@ -138,8 +143,6 @@ function ReportEditor() {
     }
   );
 
-  const [advice, setAdvice] = React.useState<string>("");
-
   return (
     <Flex className={styles.container} direction="column" gap="xl">
       <Button unstyled component={Link} href="/dashboard">
@@ -150,24 +153,28 @@ function ReportEditor() {
       </Button>
       <Section title="Overview">
         <Flex direction="column" className={styles.overview}>
-          <Select
-            label="Patient"
-            required
-            placeholder="Select Patient"
+          <Autocomplete
             data={searchUserData.map((user) => ({
-              value: user._id,
-              label: user.name,
+              label: user.name + " (" + user.email + ")",
+              value: user.name + " (" + user.email + ")",
             }))}
-            value={patient?._id}
-            onChange={(value) => {
-              setPatient(
-                searchUserData.find((user) => user._id === value) || null
-              );
+            onChange={(value: string) => {
+              setPatientSearchQuery(value);
+              if (value.includes("(") && value.includes(")")) {
+                const email = value.split("(")[1].split(")")[0];
+                const foundData = searchUserData.find(
+                  (item) => item.email == email
+                );
+                if (foundData) {
+                  setPatient(foundData);
+                }
+              } else {
+                setPatient(null);
+              }
             }}
-            searchable
             rightSection={isSearchingUser ? <Loader size="1rem" /> : null}
-            onSearchChange={setPatientSearchQuery}
-            size="md"
+            label="Patient"
+            placeholder="Select Patient"
           />
           {patient && <Text color="primary">{patient.email}</Text>}
         </Flex>
@@ -223,7 +230,6 @@ function ReportEditor() {
             </thead>
             <tbody>
               {complainsData.map((complain, complainIndex) => {
-                console.log({ complainIndex });
                 return (
                   <tr key={complainIndex}>
                     <td>
@@ -534,8 +540,10 @@ function ReportEditor() {
             maxWidth: 500,
           }}
           size="md"
-          value={advice}
-          onChange={(event) => setAdvice(event.currentTarget.value)}
+          value={prescription.advice}
+          onChange={(event) =>
+            setPrescription((prev) => ({ ...prev, advice: event.target.value }))
+          }
           placeholder="Advice for Patient"
         />
       </Section>
