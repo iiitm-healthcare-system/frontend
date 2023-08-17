@@ -17,6 +17,7 @@ class APIConstants {
   // Cases Endpoints
   FILE_CASE = this.CASES + "/";
   GET_ALL_CASES = this.CASES + "/";
+  GET_CASE_DATA = (id: string) => this.CASES + "/" + id;
 }
 
 const API_CONSTANTS = new APIConstants();

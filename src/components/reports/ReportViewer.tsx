@@ -123,7 +123,9 @@ function ReportViewer() {
             className={styles.patientInfo}
           >
             <Text weight="500">Patient</Text>
-            <Title order={5}>{recordData.patient.name}</Title>
+            <Title transform="capitalize" order={5}>
+              {recordData.patient.name}
+            </Title>
             <Flex direction="column" gap={4}>
               <Text weight="500">{recordData.patient.email}</Text>
               <Text weight="500" color="primary">
@@ -167,9 +169,9 @@ function ReportViewer() {
             title={<Title order={6}>Case Filed</Title>}
             bullet={<IconStethoscope size={14} />}
           >
-            <Text size="lg">
+            <Text size="lg" transform="capitalize">
               By{" "}
-              <Text span weight="700" color="primary">
+              <Text transform="capitalize" span weight="700" color="primary">
                 {recordData.doctor.name}
               </Text>
             </Text>
@@ -210,7 +212,11 @@ function ReportViewer() {
                             <Text color="dimmed" size="sm">
                               Provided by
                             </Text>
-                            <Text color="primary" weight={600}>
+                            <Text
+                              color="primary"
+                              weight={600}
+                              transform="capitalize"
+                            >
                               {recordData.attendant?.name}
                             </Text>
                           </Flex>
@@ -242,7 +248,7 @@ function ReportViewer() {
                         </>
                       )}
                       <Flex gap={12} align="center">
-                        <Text size="xl" weight="700">
+                        <Text size="xl" weight="700" transform="capitalize">
                           {medication.name}
                         </Text>
                         <Text>Quantity: {medication.quantity}</Text>
@@ -319,7 +325,12 @@ function ReportViewer() {
               <>
                 <Text size="lg">
                   By{" "}
-                  <Text span weight="700" color="primary">
+                  <Text
+                    span
+                    weight="700"
+                    color="primary"
+                    transform="capitalize"
+                  >
                     {recordData.completedBy?.name}
                   </Text>
                 </Text>
