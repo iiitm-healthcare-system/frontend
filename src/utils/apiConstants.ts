@@ -16,6 +16,7 @@ class APIConstants {
 
   // Cases Endpoints
   FILE_CASE = this.CASES + "/";
+  GET_ALL_CASES = this.CASES + "/";
 }
 
 const API_CONSTANTS = new APIConstants();

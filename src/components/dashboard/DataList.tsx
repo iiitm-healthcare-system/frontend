@@ -5,6 +5,7 @@ import { Flex, Pagination, Skeleton, Table } from "@mantine/core";
 import React from "react";
 import styles from "./DataList.module.css";
 import { useRouter } from "next/navigation";
+import { getTitleCase } from "@/utils/helpers/titlecase";
 
 const STATUS_COLOR = {
   admit: "red",
@@ -64,16 +65,20 @@ function DataList() {
                 cursor: "pointer",
               }}
             >
-              <td>{record.patient?.name}</td>
+              <td>{getTitleCase(record.patient?.name)}</td>
               <td>{record.patient?.email}</td>
               <td>{new Date(record.createdAt).toDateString()}</td>
               <td>
-                {[record.doctor?.name, record.attendant?.name]
-                  .filter((item) => item)
-                  .join(", ")}
+                {getTitleCase(
+                  [record.doctor?.name, record.attendant?.name]
+                    .filter((item) => item)
+                    .join(", ")
+                )}
               </td>
-              <td>{record.diagnosis.join(", ")}</td>
-              <td color={STATUS_COLOR[record.status]}>{record.status}</td>
+              <td>{getTitleCase(record.diagnosis.join(", "))}</td>
+              <td color={STATUS_COLOR[record.status]}>
+                {getTitleCase(record.status)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -81,7 +86,7 @@ function DataList() {
       <Pagination
         value={page}
         onChange={setPage}
-        total={totalRecordsCount / 10}
+        total={Math.ceil(totalRecordsCount / 10)}
       />
     </Flex>
   );
