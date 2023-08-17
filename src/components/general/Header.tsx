@@ -30,11 +30,8 @@ function Header() {
   const handleLogout = async () => {
     removeCookie("token");
     axios.defaults.headers.common["Authorization"] = null;
-    console.log("LOGGIN OUT");
     await mutate([API_CONSTANTS.GET_USER, "get"]);
-    console.log("LOGGED OUT");
     router.push("/");
-    console.log("ROUTED");
     notificationManager.showSuccess("Logged out successfully");
   };
 
