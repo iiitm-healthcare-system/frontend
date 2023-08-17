@@ -84,6 +84,12 @@ function ReportViewer() {
     genericMutationFetcher
   );
 
+  const { trigger: markResolved, isMutating: isMarkingResolved } =
+    useSWRMutation(
+      API_CONSTANTS.MARK_AS_COMPLETE(params.id as string),
+      genericMutationFetcher
+    );
+
   if (isRecordDataLoading || isUserDataLoading) {
     return <Skeleton height={500} />;
   }
@@ -108,6 +114,19 @@ function ReportViewer() {
         ],
       });
       notificationManager.showSuccess("Med Marked As Provied");
+      await mutateRecordData();
+    } catch (err) {
+      console.log("ERROR MARKING AS GIVEN", err);
+      notificationManager.showError(err);
+    }
+  };
+
+  const handleMarkResolved = async () => {
+    try {
+      await markResolved({
+        type: "post",
+      });
+      notificationManager.showSuccess("Marked As Resolved");
       await mutateRecordData();
     } catch (err) {
       console.log("ERROR MARKING AS GIVEN", err);
@@ -379,6 +398,8 @@ function ReportViewer() {
                 rightIcon={<IconCheck size={16} />}
                 variant="filled"
                 color="teal"
+                onClick={handleMarkResolved}
+                loading={isMarkingResolved}
               >
                 Mark As Complete
               </Button>
