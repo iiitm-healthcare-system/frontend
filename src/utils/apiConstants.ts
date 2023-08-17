@@ -22,6 +22,7 @@ class APIConstants {
     this.CASES + "/medication/markAsGiven/" + id;
   MARK_AS_COMPLETE = (id: string) => this.CASES + "/markComplete/" + id;
   GET_ANALYTICS = this.CASES + "/analytics";
+  GET_STATS = this.CASES + "/stats";
 }
 
 const API_CONSTANTS = new APIConstants();

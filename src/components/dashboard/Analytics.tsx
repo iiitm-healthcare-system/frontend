@@ -28,15 +28,10 @@ const STATUS_COLOR = {
 };
 
 type TimeframeOptions = "week" | "month" | "year";
-type TypeOptions = "active" | "complete" | "admit" | "opened";
 const QUICK_STATS_DATA = [
   {
-    lable: "Total Cases This Week",
+    lable: "Total Cases",
     key: "cases",
-  },
-  {
-    lable: "Total Admitted",
-    key: "admitted",
   },
   {
     lable: "Total Recovered",
@@ -46,12 +41,20 @@ const QUICK_STATS_DATA = [
     lable: "Total Ongoing",
     key: "ongoing",
   },
+  {
+    lable: "Medication Provided",
+    key: "medicationProvided",
+  },
+  {
+    lable: "Medication Not Provided",
+    key: "medicationNotProvided",
+  },
 ];
 
 function Analytics() {
   const { ref, width } = useElementSize();
   const [timeframe, setTimeframe] = React.useState<TimeframeOptions>("week");
-  const [type, setType] = React.useState<TypeOptions>("active");
+  const [type, setType] = React.useState<string>("ongoing");
   const { analytiicsData, errorFetchingAnalyticsData, isAnalyticsDataLoading } =
     useAnalytics(timeframe, type);
   const {
@@ -86,7 +89,7 @@ function Analytics() {
               color="primary"
               value={type}
               required
-              onChange={(value) => value && setType(value as TypeOptions)}
+              onChange={(value) => value && setType(value)}
             />
           </Flex>
         </Flex>
@@ -120,8 +123,8 @@ function Analytics() {
           </LineChart>
         )}
       </Flex>
-      <Flex direction="column" gap="lg">
-        <Title order={4}>Quick Stats</Title>
+      <Flex direction="column" gap="lg" mt={16}>
+        <Title order={4}>Quick Stats (Last 7 Days)</Title>
         {isQuickStatsDataLoading ||
         errorFetchingQuickStatsData ||
         !quickStatsData ? (
@@ -140,7 +143,7 @@ function Analytics() {
                     {item.lable}
                   </Title>
                   <Title order={3} color="primary">
-                    {quickStatsData[item.key as keyof typeof quickStatsData]}
+                    {quickStatsData[item.key as string]}
                   </Title>
                 </Flex>
               );

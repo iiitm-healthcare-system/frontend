@@ -53,19 +53,20 @@ export function useAnalytics(timeframe: string, type: string) {
     }[],
     isAnalyticsDataLoading: isLoading as boolean,
     errorFetchingAnalyticsData: error,
-    mutateRecordData: mutate,
   };
 }
 
 export function useQuickStats() {
+  const { data, error, isLoading } = useSWR(
+    [API_CONSTANTS.GET_STATS, "get"],
+    genericAPIFetcher
+  );
+
   return {
-    quickStatsData: {
-      cases: 647,
-      admitted: 3,
-      recovered: 544,
-      ongoing: 46,
+    quickStatsData: data?.data as {
+      [key: string]: number;
     },
-    isQuickStatsDataLoading: false,
-    errorFetchingQuickStatsData: false,
+    isQuickStatsDataLoading: isLoading as boolean,
+    errorFetchingQuickStatsData: error,
   };
 }
