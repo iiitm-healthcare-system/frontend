@@ -82,7 +82,7 @@ function Analytics() {
               }
             />
             <Select
-              data={["active", "complete", "admit", "opened"]}
+              data={["ongoing", "complete", "ALL"]}
               color="primary"
               value={type}
               required
@@ -108,12 +108,12 @@ function Analytics() {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" fontSize={14} />
+            <XAxis dataKey="label" fontSize={14} />
             <YAxis fontSize={14} />
             <Tooltip />
             <Line
               type="monotone"
-              dataKey="amt"
+              dataKey="count"
               strokeWidth={2}
               stroke="#0E9CFF"
             />

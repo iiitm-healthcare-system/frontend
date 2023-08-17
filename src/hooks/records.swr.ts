@@ -32,13 +32,28 @@ export function useRecord(recordId: string) {
 }
 
 export function useAnalytics(timeframe: string, type: string) {
+  const { data, error, isLoading, mutate } = useSWR(
+    [
+      API_CONSTANTS.GET_ANALYTICS,
+      "get",
+      {
+        params: {
+          timeframe,
+          type,
+        },
+      },
+    ],
+    genericAPIFetcher
+  );
+
   return {
-    analytiicsData: new Array(10).fill(0).map((_, index) => ({
-      name: "Data " + index,
-      amt: Math.floor(Math.random() * 1000),
-    })),
-    isAnalyticsDataLoading: false,
-    errorFetchingAnalyticsData: false,
+    analytiicsData: data?.data as {
+      label: string;
+      count: string;
+    }[],
+    isAnalyticsDataLoading: isLoading as boolean,
+    errorFetchingAnalyticsData: error,
+    mutateRecordData: mutate,
   };
 }
 
