@@ -17,6 +17,7 @@ import {
   MultiSelect,
   Checkbox,
   Textarea,
+  LoadingOverlay,
 } from "@mantine/core";
 import Link from "next/link";
 import {
@@ -34,6 +35,11 @@ import { IUser } from "@/app/interfaces/IUser";
 import { useSearchUser } from "@/hooks/user.swr";
 import { ICase } from "@/app/interfaces/ICase";
 import { useDebouncedState } from "@mantine/hooks";
+import API_CONSTANTS from "@/utils/apiConstants";
+import useSWRMutation from "swr/mutation";
+import { genericMutationFetcher } from "@/utils/helpers/swr.helper";
+import { useRouter } from "next/navigation";
+import notificationManager from "../helpers/NotificationManager";
 
 const Section = ({
   title,
@@ -123,14 +129,37 @@ function ReportEditor() {
     pulse: 0,
     temperature: 0,
     bloodPressure: "0/0",
+    // height: 167,
+    // weight: 87,
+    // pulse: 124,
+    // temperature: 103,
+    // bloodPressure: "120/80",
   });
 
   const [complainsData, setComplains] = React.useState<ICase["complaints"]>([
     { ...DEFAULT_COMPLAIN },
+    // {
+    //   description: "weakness",
+    //   duration: 5,
+    //   severity: "high",
+    //   frequency: "constant",
+    // },
+    // {
+    //   description: "headache",
+    //   duration: 5,
+    //   severity: "high",
+    //   frequency: "constant",
+    // },
   ]);
 
-  const [diagnosisOptions, setDiagnosisOptions] = React.useState<string[]>([]);
-  const [diagnosis, setDiagnosis] = React.useState<string[]>([]);
+  const [diagnosisOptions, setDiagnosisOptions] = React.useState<string[]>(
+    []
+    // ["fever", "cough", "cold"]
+  );
+  const [diagnosis, setDiagnosis] = React.useState<string[]>(
+    []
+    // ["fever", "cough", "cold"]
+  );
 
   const [prescription, setPrescription] = React.useState<ICase["prescription"]>(
     {
@@ -140,11 +169,94 @@ function ReportEditor() {
         },
       ],
       advice: "",
+      // medications: [
+      //   {
+      //     name: "Amoxicillin - 500 mg",
+      //     quantity: 8,
+      //     dosage: {
+      //       morning: {
+      //         beforeMeal: true,
+      //         afterMeal: false,
+      //       },
+      //       afternoon: {
+      //         beforeMeal: true,
+      //         afterMeal: false,
+      //       },
+      //       night: {
+      //         beforeMeal: true,
+      //         afterMeal: true,
+      //       },
+      //     },
+      //     notes: "",
+      //     type: "dosage",
+      //     provided: false,
+      //   },
+      //   {
+      //     name: "Amoxicillin - 500 mg",
+      //     quantity: 8,
+      //     dosage: {
+      //       morning: {
+      //         beforeMeal: true,
+      //         afterMeal: false,
+      //       },
+      //       afternoon: {
+      //         beforeMeal: true,
+      //         afterMeal: false,
+      //       },
+      //       night: {
+      //         beforeMeal: true,
+      //         afterMeal: false,
+      //       },
+      //     },
+      //     notes: "Take When headache",
+      //     type: "notes",
+      //     provided: false,
+      //   },
+      // ],
+      // advice: "Take Bed Rest for two days",
     }
   );
 
+  const { trigger: fileCase, isMutating: isFilingCase } = useSWRMutation(
+    API_CONSTANTS.FILE_CASE,
+    genericMutationFetcher
+  );
+  const router = useRouter();
+
+  const handleSumbit = async () => {
+    try {
+      const { data } = await fileCase({
+        type: "post",
+        rest: [
+          {
+            patient: patient?._id,
+            vitals,
+            complains: complainsData,
+            diagnosis,
+            prescription,
+          },
+        ],
+      });
+
+      router.push("/dashboard");
+      notificationManager.showSuccess(
+        "Case Filed Successfully",
+        "Redirecting..."
+      );
+    } catch (err: any) {
+      console.log(err);
+      notificationManager.showError(err);
+    }
+  };
+
   return (
-    <Flex className={styles.container} direction="column" gap="xl">
+    <Flex
+      className={styles.container}
+      direction="column"
+      gap="xl"
+      pos="relative"
+    >
+      <LoadingOverlay visible={isFilingCase} overlayBlur={2} />
       <Button unstyled component={Link} href="/dashboard">
         <Flex gap={12} align="center">
           <IconChevronLeft size={32} />
@@ -548,7 +660,9 @@ function ReportEditor() {
         />
       </Section>
       <Flex>
-        <Button size="md">Continue</Button>
+        <Button onClick={handleSumbit} size="md">
+          Continue
+        </Button>
       </Flex>
     </Flex>
   );

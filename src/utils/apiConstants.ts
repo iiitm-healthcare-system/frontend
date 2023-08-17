@@ -4,6 +4,7 @@ class APIConstants {
   // Controllers
   AUTH = this.BASE_URL + "/auth";
   USER = this.BASE_URL + "/user";
+  CASES = this.BASE_URL + "/cases";
 
   // Auth Endpoints
   LOGIN = this.AUTH + "/login";
@@ -12,6 +13,9 @@ class APIConstants {
   // User Endpoints
   GET_USER = this.USER + "/";
   SEARCH_PATIENTS = this.USER + "/patients";
+
+  // Cases Endpoints
+  FILE_CASE = this.CASES + "/";
 }
 
 const API_CONSTANTS = new APIConstants();
