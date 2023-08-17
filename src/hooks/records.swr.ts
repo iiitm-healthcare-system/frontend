@@ -18,7 +18,7 @@ export function useRecords(page: number, limit: number) {
 }
 
 export function useRecord(recordId: string) {
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     [API_CONSTANTS.GET_CASE_DATA(recordId), "get"],
     genericAPIFetcher
   );
@@ -27,6 +27,7 @@ export function useRecord(recordId: string) {
     recordData: data?.data as ICase,
     isRecordDataLoading: isLoading as boolean,
     errorFetchingRecordData: error,
+    mutateRecordData: mutate,
   };
 }
 

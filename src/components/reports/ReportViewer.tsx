@@ -49,6 +49,10 @@ import { useRecord } from "@/hooks/records.swr";
 import { redirect, useParams } from "next/navigation";
 import { IconDiscountCheckFilled } from "@tabler/icons-react";
 import { IconAlertTriangleFilled } from "@tabler/icons-react";
+import API_CONSTANTS from "@/utils/apiConstants";
+import useSWRMutation from "swr/mutation";
+import { genericMutationFetcher } from "@/utils/helpers/swr.helper";
+import notificationManager from "../helpers/NotificationManager";
 
 const Section = ({
   title,
@@ -67,9 +71,18 @@ const Section = ({
 
 function ReportViewer() {
   const params = useParams();
-  const { recordData, errorFetchingRecordData, isRecordDataLoading } =
-    useRecord(params.id as string);
+  const {
+    recordData,
+    errorFetchingRecordData,
+    isRecordDataLoading,
+    mutateRecordData,
+  } = useRecord(params.id as string);
   const { userData, errorFetchingUserData, isUserDataLoading } = useUser();
+
+  const { trigger: markASGiven, isMutating: isMarkingAsGiven } = useSWRMutation(
+    API_CONSTANTS.MARK_MED_AS_GIVEN(params.id as string),
+    genericMutationFetcher
+  );
 
   if (isRecordDataLoading || isUserDataLoading) {
     return <Skeleton height={500} />;
@@ -83,6 +96,24 @@ function ReportViewer() {
   ) {
     redirect("/");
   }
+
+  const handleMarkAsGiven = async (index: number) => {
+    try {
+      await markASGiven({
+        type: "post",
+        rest: [
+          {
+            medicineId: index,
+          },
+        ],
+      });
+      notificationManager.showSuccess("Med Marked As Provied");
+      await mutateRecordData();
+    } catch (err) {
+      console.log("ERROR MARKING AS GIVEN", err);
+      notificationManager.showError(err);
+    }
+  };
 
   return (
     <Flex className={styles.container} direction="column" gap="xl">
@@ -225,7 +256,12 @@ function ReportViewer() {
                         <>
                           {userData.role == "attendant" ? (
                             <Flex>
-                              <Button color="teal" size="md">
+                              <Button
+                                color="teal"
+                                size="md"
+                                loading={isMarkingAsGiven}
+                                onClick={() => handleMarkAsGiven(index)}
+                              >
                                 Mark As Given
                               </Button>
                             </Flex>
