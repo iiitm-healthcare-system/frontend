@@ -156,13 +156,18 @@ function ReportViewer() {
             {params.id}
           </Chip>
         </Flex>
-        <Button
-          size="md"
-          leftIcon={<IconDownload size={18} />}
-          variant="subtle"
-        >
-          Download Data
-        </Button>
+        {recordData.publicURL && (
+          <Button
+            size="md"
+            leftIcon={<IconDownload size={18} />}
+            variant="subtle"
+            component={Link}
+            href={recordData.publicURL}
+            target="_blank"
+          >
+            Download Data
+          </Button>
+        )}
       </Flex>
       <Section title="Overview">
         <Flex direction="row" gap={20}>

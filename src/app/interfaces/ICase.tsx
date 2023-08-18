@@ -47,4 +47,5 @@ export interface ICase {
   completedAt?: Date;
   completedBy?: IUser;
   createdAt: Date;
+  publicURL?: string;
 }
