@@ -1,5 +1,5 @@
 class APIConstants {
-  BASE_URL = "http://localhost:8000/api/v1";
+  BASE_URL = "https://test-btp-pvt.careercopilot.in/api/v1";
 
   // Controllers
   AUTH = this.BASE_URL + "/auth";
