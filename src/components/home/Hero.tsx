@@ -115,7 +115,7 @@ function Hero() {
             </div>
           </div>
           <div className={styles.mainRight}>
-            <Image src={HeroCover} alt="Healthcare" fill />
+            <Image src={HeroCover} alt="Healthcare" fill priority/>
           </div>
         </main>
         <footer className={styles.footer}>
